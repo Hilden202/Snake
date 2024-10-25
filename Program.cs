@@ -6,240 +6,68 @@ namespace Snake
 {
     class Program
     {
-        static int size = 10;
-        static Snaken snake;
-        static int skattX = 1;
-        static int skattY = 1;
-        static Random random = new Random();
-        static Direction direction;
-
-        enum Direction
-        {
-            Up,
-            Down,
-            Left,
-            Right,
-            None
-        }
-
         static void Main(string[] args)
         {
+            RestartGame(); // Starta spelet för första gången
+        }
+
+        public static void RestartGame() // Gör denna metod public
+        {
+            // Återställ spelets tillstånd
+            Console.Clear();
+            Spelplan spelplan = new Spelplan(30, 15); // Exempelstorlek
+            Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
+            Snaken snake = new Snaken(2, 1); // Startposition för snaken
+
+            GameLoop(spelplan, snake, skatt); // Starta spelet igen
+        }
+
+        static void GameLoop(Spelplan spelplan, Snaken snake, Skatten skatt)
+        {
             while (true)
             {
-                StartaOmSpelet();
-                if (!SpelaSpelet()) break; // Avsluta om användaren väljer att göra det
-            }
-        }
+                spelplan.RitaSpelplan(snake, skatt);
+                bool gameOver = snake.MoveAutomatically(spelplan, skatt); // Kolla om spelet ska avslutas
+                snake.PrintScore();
 
-        static void StartaOmSpelet()
-        {
-            snake = new Snaken(size); // Skapa en ny instans av Snaken
-            direction = Direction.None; // Ingen riktning i början
-            FlyttaSkatt(); // Initiera skatten
-        }
+                if (gameOver)
+                {
+                    Console.WriteLine("Spelet är slut! Tryck på valfri tangent för att starta om.");
+                    Console.ReadKey(true); // Väntar på en tangenttryckning
+                    RestartGame(); // Starta om spelet
+                    break; // Avsluta den nuvarande loopen
+                }
 
-        static bool SpelaSpelet()
-        {
-            RitaSpelplan();
-
-            // Vänta på att användaren trycker på en tangent för att starta
-            while (direction == Direction.None)
-            {
+                // Kontrollera för tangenttryckningar
                 if (Console.KeyAvailable)
                 {
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-                    direction = key.Key switch
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true); // Väntar på tangenttryckning
+                    Direction direction = Direction.Right; // Default riktning
+
+                    // Ställ in riktningen baserat på tangenttryckning
+                    switch (keyInfo.Key)
                     {
-                        ConsoleKey.UpArrow => Direction.Up,
-                        ConsoleKey.DownArrow => Direction.Down,
-                        ConsoleKey.LeftArrow => Direction.Left,
-                        ConsoleKey.RightArrow => Direction.Right,
-                        _ => direction // Behåll tidigare riktning om ingen giltig tangent trycks
-                    };
-                }
-            }
-
-            int maxScore = (size * size) - 1; // Beräkna maximal poäng
-
-            // Loop för att flytta snaken
-            while (true)
-            {
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-
-                    // Avsluta programmet
-                    if (key.KeyChar == 'q')
-                    {
-                        return false; // Avsluta spelet
+                        case ConsoleKey.UpArrow:
+                            direction = Direction.Up;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            direction = Direction.Down;
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            direction = Direction.Left;
+                            break;
+                        case ConsoleKey.RightArrow:
+                            direction = Direction.Right;
+                            break;
+                        default:
+                            continue; // Om annan tangent trycks, hoppa över iterationen
                     }
 
-                    // Ändra riktning, men förhindra motsatt riktning
-                    Direction newDirection = key.Key switch
-                    {
-                        ConsoleKey.UpArrow => Direction.Up,
-                        ConsoleKey.DownArrow => Direction.Down,
-                        ConsoleKey.LeftArrow => Direction.Left,
-                        ConsoleKey.RightArrow => Direction.Right,
-                        _ => direction // Behåll tidigare riktning om ingen giltig tangent trycks
-                    };
-
-                    // Blockera motsatt riktning
-                    if ((direction == Direction.Up && newDirection != Direction.Down) ||
-                        (direction == Direction.Down && newDirection != Direction.Up) ||
-                        (direction == Direction.Left && newDirection != Direction.Right) ||
-                        (direction == Direction.Right && newDirection != Direction.Left))
-                    {
-                        direction = newDirection;
-                    }
+                    snake.ChangeDirection(direction); // Ändra riktning
                 }
 
-                // Flytta snaken i vald riktning
-                (int newX, int newY) = snake.Snake[0]; // Hämta den nuvarande positionen för snaken
-
-                switch (direction)
-                {
-                    case Direction.Up:
-                        newY = (newY > 0) ? newY - 1 : size - 1; // Hoppa till botten om snaken går upp
-                        break;
-                    case Direction.Down:
-                        newY = (newY < size - 1) ? newY + 1 : 0; // Hoppa till toppen om snaken går ner
-                        break;
-                    case Direction.Left:
-                        newX = (newX > 0) ? newX - 1 : size - 1; // Hoppa till höger om snaken går vänster
-                        break;
-                    case Direction.Right:
-                        newX = (newX < size - 1) ? newX + 1 : 0; // Hoppa till vänster om snaken går höger
-                        break;
-                    default:
-                        continue; // Om ingen giltig riktning, hoppa till nästa iteration
-                }
-
-                // Kontrollera om snaken har nått skatten
-                if (newX == skattX && newY == skattY)
-                {
-                    snake.Vaxa();
-                    FlyttaSkatt();
-
-                    // Kontrollera om spelaren når maximal poäng
-                    if (snake.Score >= maxScore)
-                    {
-                        DuVann();
-                        break; // Avsluta spelet
-                    }
-                }
-
-                // Uppdatera snaken med den nya positionen
-                snake.Flytta(newX, newY);
-
-                // Kontrollera om snaken har krockat med sig själv
-                if (snake.KrockaMedSigSjälv())
-                {
-                    GameOver();
-                    break; // Avsluta spelet
-                }
-
-                RitaSpelplan();
-                Thread.Sleep(snake.SleepTime); // Använd den aktuella fördröjningen
+                Thread.Sleep(snake.GetSpeed()); // Väntar en stund innan nästa rörelse
             }
-
-            return true; // Återvänd till huvudloopen för att starta om spelet
-        }
-
-        static void FlyttaSkatt()
-        {
-            int newX, newY;
-
-            do
-            {
-                newX = random.Next(0, size);
-                newY = random.Next(0, size);
-            }
-            while (snake.Snake.Contains((newX, newY))); // Se till att skatten inte hamnar på snaken
-
-            skattX = newX;
-            skattY = newY;
-        }
-
-        static void RitaSpelplan()
-        {
-            Console.Clear();
-            Console.WriteLine("Poäng: " + snake.Score);
-            Console.WriteLine();
-
-            Tak();
-
-            for (int i = 0; i < size; i++)
-            {
-                Väggar(i);
-                if (i == size - 1)
-                {
-                    Golv();
-                }
-            }
-        }
-
-        static void Tak()
-        {
-            Console.WriteLine(new string('—', size * 3 + 2));
-        }
-
-        static void Väggar(int currentY)
-        {
-            Console.Write("|"); // vänster vägg
-
-            for (int spelplan = 0; spelplan < size; spelplan++)
-            {
-                // Rita snaken
-                if (snake.Snake[0] == (spelplan, currentY))
-                {
-                    Console.Write(" O "); // Rita huvudet
-                }
-                else if (snake.Snake.Contains((spelplan, currentY)))
-                {
-                    Console.Write(" o "); // Rita kroppen
-                }
-
-                else if (currentY == skattY && spelplan == skattX)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(" ■ ");  // Rita skatt
-                    Console.ResetColor();  // Återställer standardfärgen
-                }
-                else
-                {
-                    Console.Write("   ");
-                }
-            }
-
-            Console.WriteLine("|");
-        }
-
-        static void Golv()
-        {
-            Console.WriteLine(new string('—', size * 3 + 2));
-        }
-
-        static void GameOver()
-        {
-            Console.Clear();
-            Console.WriteLine("Game Over! Försök igen.");
-            Thread.Sleep(2000);
-            Console.WriteLine("Tryck på valfri tangent för att börja om...");
-
-            // Vänta på att användaren trycker på en tangent
-            while (!Console.KeyAvailable) { } // Håll loop tills en tangent trycks
-            Console.ReadKey(true); // Läs tangenttrycket utan att visa det
-        }
-
-        static void DuVann()
-        {
-            Console.Clear();
-            Console.WriteLine("Du vann! Du nådde maximal poäng.");
-            Thread.Sleep(2000);
-            Console.WriteLine("Tryck på valfri tangent för att börja om...");
-            while (!Console.KeyAvailable) { } // Håll loop tills en tangent trycks
-            Console.ReadKey(true); // Läs tangenttrycket utan att visa det
         }
     }
 }

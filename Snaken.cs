@@ -5,47 +5,87 @@ namespace Snake
 {
     public class Snaken
     {
-        public List<(int x, int y)> Snake { get; private set; } = new List<(int, int)>();
-        public int Score { get; private set; }
-        public int SleepTime { get; private set; } = 250; // Initial sleep time
-        public int Size { get; private set; }
+        public List<(int x, int y)> Snake { get; private set; }
+        public Direction CurrentDirection { get; private set; } // Offentlig variabel för nuvarande riktning
+        private int score;
+        private int speed; // Hastighet
 
-        public Snaken(int size)
+        public Snaken(int initialX, int initialY)
         {
-            Size = size;
-            Snake.Add((0, 0)); // Snaken börjar med en del
-            Score = 0;
+            Snake = new List<(int, int)> { (initialX, initialY) }; // Starta snaken på en position
+            score = 0;
+            speed = 250; // Starta med en hastighet på 250 ms
+            CurrentDirection = Direction.Right; // Starta med en standardriktning
         }
 
-        public void Flytta(int newX, int newY)
+        public bool MoveAutomatically(Spelplan spelplan, Skatten skatt)
         {
-            for (int i = Snake.Count - 1; i > 0; i--)
-            {
-                Snake[i] = Snake[i - 1]; // Flytta varje del till föregående position
-            }
-            Snake[0] = (newX, newY); // Sätt den nya positionen för huvudet
+            return Move(CurrentDirection, spelplan, skatt); // Returnera resultatet från Move
         }
 
-        public void Vaxa()
-        {
-            Snake.Add(Snake[Snake.Count - 1]); // Duplicera den sista delen för att växa
-            Score++;
-            SleepTime = Math.Max(50, SleepTime - 2); // Minska sleep time, men inte under 50 ms
-        }
-
-        public bool KrockaMedSigSjälv()
+        public bool Move(Direction direction, Spelplan spelplan, Skatten skatt)
         {
             var head = Snake[0];
-            return Snake.GetRange(1, Snake.Count - 1).Contains(head);
+
+            // Flytta huvudet baserat på den aktuella riktningen
+            switch (CurrentDirection)
+            {
+                case Direction.Up:
+                    head.y = (head.y > 1) ? head.y - 1 : spelplan.VerticalWallLength - 1;
+                    break;
+                case Direction.Down:
+                    head.y = (head.y < spelplan.VerticalWallLength - 1) ? head.y + 1 : 1;
+                    break;
+                case Direction.Left:
+                    head.x = (head.x > 1) ? head.x - 2 : spelplan.HorisontalWallLength - 2;
+                    break;
+                case Direction.Right:
+                    head.x = (head.x < spelplan.HorisontalWallLength - 2) ? head.x + 2 : 2;
+                    break;
+            }
+
+            // Kolla om snaken har samlat in skatten
+            if (head == skatt.Skatt)
+            {
+                score++;
+                speed = Math.Max(200, speed - 5);
+                skatt.FlyttaSkatt(this, spelplan);
+            }
+            else
+            {
+                Snake.RemoveAt(Snake.Count - 1); // Ta bort den sista segmentet om inget samlades in
+            }
+
+            // Kontrollera om snaken krockar med sig själv
+            if (Snake.Contains(head))
+            {
+                return true; // Spelet ska avslutas
+            }
+
+            Snake.Insert(0, head); // Lägg till huvudet
+            return false; // Spelet fortsätter
         }
 
-        public void Rensa()
+        public void ChangeDirection(Direction direction)
         {
-            Snake.Clear();
-            Snake.Add((0, 0)); // Återställ snaken
-            Score = 0;
-            SleepTime = 250; // Återställ sleep time
+            // Endast tillåtna riktningar
+            if ((CurrentDirection == Direction.Up && direction != Direction.Down) ||
+                (CurrentDirection == Direction.Down && direction != Direction.Up) ||
+                (CurrentDirection == Direction.Left && direction != Direction.Right) ||
+                (CurrentDirection == Direction.Right && direction != Direction.Left))
+            {
+                CurrentDirection = direction; // Ändra riktning om det inte är motsatt riktning
+            }
+        }
+
+        public void PrintScore()
+        {
+            Console.WriteLine($"Poäng: {score}");
+        }
+
+        public int GetSpeed() // Ny metod för att få hastigheten
+        {
+            return speed;
         }
     }
 }
-
