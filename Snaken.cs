@@ -42,7 +42,7 @@ namespace Snake
                     head.y = (head.y < spelplan.VerticalWallLength - 1) ? head.y + 1 : 1;
                     break;
                 case Direction.Left:
-                    head.x = (head.x > 1) ? head.x - 2 : spelplan.HorisontalWallLength - 2;
+                    head.x = (head.x > 2) ? head.x - 2 : spelplan.HorisontalWallLength - 2;
                     break;
                 case Direction.Right:
                     head.x = (head.x < spelplan.HorisontalWallLength - 2) ? head.x + 2 : 2;
@@ -81,11 +81,6 @@ namespace Snake
             {
                 CurrentDirection = direction; // Ändra riktning om det inte är motsatt riktning
             }
-        }
-
-        public void PrintScore()
-        {
-            Console.WriteLine($"Poäng: {score}");
         }
 
         public int GetSpeed() // Ny metod för att få hastigheten

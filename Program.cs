@@ -30,7 +30,6 @@ namespace Snake
                 {
                     spelplan.RitaSpelplan(snake, skatt);
                     bool gameOver = snake.MoveAutomatically(spelplan, skatt);
-                    snake.PrintScore();
 
                     if (gameOver)
                     {
