@@ -18,6 +18,11 @@ namespace Snake
             CurrentDirection = Direction.Right; // Starta med en standardriktning
         }
 
+        public int GetScore() // Ny metod för att få poängen
+        {
+            return score;
+        }
+
         public bool MoveAutomatically(Spelplan spelplan, Skatten skatt)
         {
             return Move(CurrentDirection, spelplan, skatt); // Returnera resultatet från Move

@@ -54,7 +54,12 @@ namespace Snake
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("■");
             Console.ResetColor();
-        }
 
+            // Skriv ut poäng
+            Console.SetCursorPosition(2, 0); // Sätt position för poäng (exempelvis 2, 0)
+            Console.ForegroundColor = ConsoleColor.White;
+            //Console.Write(snake.GetScore()); // Skriv ut poängen
+            Console.ResetColor();
+        }
     }
 }
