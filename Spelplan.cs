@@ -45,7 +45,7 @@ namespace Snake
             {
                 Console.SetCursorPosition(segment.Item1, segment.Item2); // Ställ in cursorposition för snaken
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("O");
+                Console.Write("◉");
                 Console.ResetColor();
             }
 
