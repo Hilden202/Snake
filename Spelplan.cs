@@ -15,11 +15,16 @@ namespace Snake
 
         public void RitaSpelplan(Snaken snake, Skatten skatt)
         {
+            // Rensa konsolen för att börja om
             Console.Clear();
+
+            // Rita väggarna och tomma fält
             for (int y = 0; y <= VerticalWallLength; y++)
             {
                 for (int x = 0; x <= HorisontalWallLength; x++)
                 {
+                    Console.SetCursorPosition(x, y); // Ställ in cursorposition
+
                     if (x == 0 || x == HorisontalWallLength) // Väggar
                     {
                         Console.Write("|");
@@ -28,25 +33,28 @@ namespace Snake
                     {
                         Console.Write("-");
                     }
-                    else if (snake.Snake.Contains((x, y))) // Snaken
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("O");
-                        Console.ResetColor();
-                    }
-                    else if (skatt.Skatt == (x, y)) // Skatt
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("■");
-                        Console.ResetColor();
-                    }
                     else // Tomt fält
                     {
                         Console.Write(" ");
                     }
                 }
-                Console.WriteLine();
             }
+
+            // Rita snaken
+            foreach (var segment in snake.Snake)
+            {
+                Console.SetCursorPosition(segment.Item1, segment.Item2); // Ställ in cursorposition för snaken
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("O");
+                Console.ResetColor();
+            }
+
+            // Rita skatten
+            Console.SetCursorPosition(skatt.Skatt.Item1, skatt.Skatt.Item2); // Ställ in cursorposition för skatten
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("■");
+            Console.ResetColor();
         }
+
     }
 }
