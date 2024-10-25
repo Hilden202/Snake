@@ -202,17 +202,17 @@ namespace Snake //Spel
                 // Rita snaken
                 if (snake.Count > 0 && snake[0] == (spelplan, currentY))
                 {
-                    Console.Write(" ❍ "); // Rita huvudet
+                    Console.Write(" O "); // Rita huvudet
                 }
                 else if (snake.Contains((spelplan, currentY)))
                 {
-                    Console.Write(" ● "); // Rita kroppen
+                    Console.Write(" o "); // Rita kroppen
                 }
                 
                 else if (currentY == skattY && spelplan == skattX)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(" ▣ ");  // Rita skatt
+                    Console.Write(" ■ ");  // Rita skatt
                     Console.ResetColor();  // Återställer standardfärgen
                 }
                 else
