@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Snake //Spel
+namespace Snake
 {
     class Program
     {
         static int size = 10;
-        static List<(int x, int y)> snake;
+        static Snaken snake;
         static int skattX = 1;
         static int skattY = 1;
-        static int score;
         static Random random = new Random();
         static Direction direction;
-        static int sleepTime = 250; // Initial sleep time
 
         enum Direction
         {
@@ -35,10 +33,9 @@ namespace Snake //Spel
 
         static void StartaOmSpelet()
         {
-            snake = new List<(int, int)> { (0, 0) }; // Snaken börjar med en del
-            score = 0;
-            sleepTime = 250; // Återställ sleep time
+            snake = new Snaken(size); // Skapa en ny instans av Snaken
             direction = Direction.None; // Ingen riktning i början
+            FlyttaSkatt(); // Initiera skatten
         }
 
         static bool SpelaSpelet()
@@ -98,7 +95,7 @@ namespace Snake //Spel
                 }
 
                 // Flytta snaken i vald riktning
-                (int newX, int newY) = snake[0]; // Hämta den nuvarande positionen för snaken
+                (int newX, int newY) = snake.Snake[0]; // Hämta den nuvarande positionen för snaken
 
                 switch (direction)
                 {
@@ -121,13 +118,11 @@ namespace Snake //Spel
                 // Kontrollera om snaken har nått skatten
                 if (newX == skattX && newY == skattY)
                 {
-                    score++;
-                    sleepTime = Math.Max(50, sleepTime - 2); // Minska sleep time, men inte under 50 ms
+                    snake.Vaxa();
                     FlyttaSkatt();
-                    snake.Add(snake[snake.Count - 1]); // Duplicera den sista delen för att växa
 
                     // Kontrollera om spelaren når maximal poäng
-                    if (score >= maxScore)
+                    if (snake.Score >= maxScore)
                     {
                         DuVann();
                         break; // Avsluta spelet
@@ -135,21 +130,17 @@ namespace Snake //Spel
                 }
 
                 // Uppdatera snaken med den nya positionen
-                for (int i = snake.Count - 1; i > 0; i--)
-                {
-                    snake[i] = snake[i - 1]; // Flytta varje del till föregående position
-                }
-                snake[0] = (newX, newY); // Sätt den nya positionen för huvudet
+                snake.Flytta(newX, newY);
 
                 // Kontrollera om snaken har krockat med sig själv
-                if (snake.GetRange(1, snake.Count - 1).Contains((newX, newY)))
+                if (snake.KrockaMedSigSjälv())
                 {
                     GameOver();
                     break; // Avsluta spelet
                 }
 
                 RitaSpelplan();
-                Thread.Sleep(sleepTime); // Använd den aktuella fördröjningen
+                Thread.Sleep(snake.SleepTime); // Använd den aktuella fördröjningen
             }
 
             return true; // Återvänd till huvudloopen för att starta om spelet
@@ -164,7 +155,7 @@ namespace Snake //Spel
                 newX = random.Next(0, size);
                 newY = random.Next(0, size);
             }
-            while (snake.Contains((newX, newY))); // Se till att skatten inte hamnar på snaken
+            while (snake.Snake.Contains((newX, newY))); // Se till att skatten inte hamnar på snaken
 
             skattX = newX;
             skattY = newY;
@@ -173,7 +164,7 @@ namespace Snake //Spel
         static void RitaSpelplan()
         {
             Console.Clear();
-            Console.WriteLine("Poäng: " + score);
+            Console.WriteLine("Poäng: " + snake.Score);
             Console.WriteLine();
 
             Tak();
@@ -195,20 +186,20 @@ namespace Snake //Spel
 
         static void Väggar(int currentY)
         {
-            Console.Write("|"); //vänster vägg
+            Console.Write("|"); // vänster vägg
 
             for (int spelplan = 0; spelplan < size; spelplan++)
             {
                 // Rita snaken
-                if (snake.Count > 0 && snake[0] == (spelplan, currentY))
+                if (snake.Snake[0] == (spelplan, currentY))
                 {
                     Console.Write(" O "); // Rita huvudet
                 }
-                else if (snake.Contains((spelplan, currentY)))
+                else if (snake.Snake.Contains((spelplan, currentY)))
                 {
                     Console.Write(" o "); // Rita kroppen
                 }
-                
+
                 else if (currentY == skattY && spelplan == skattX)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -222,8 +213,6 @@ namespace Snake //Spel
             }
 
             Console.WriteLine("|");
-
-
         }
 
         static void Golv()
@@ -249,8 +238,6 @@ namespace Snake //Spel
             Console.WriteLine("Du vann! Du nådde maximal poäng.");
             Thread.Sleep(2000);
             Console.WriteLine("Tryck på valfri tangent för att börja om...");
-
-            // Vänta på att användaren trycker på en tangent
             while (!Console.KeyAvailable) { } // Håll loop tills en tangent trycks
             Console.ReadKey(true); // Läs tangenttrycket utan att visa det
         }
