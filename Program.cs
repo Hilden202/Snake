@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Snake
+namespace Snake //Spel
 {
     class Program
     {
