@@ -27,6 +27,19 @@ namespace Snake
             Console.ResetColor();
         }
 
+        public void ToppLista()
+        {
+            Console.SetCursorPosition(32, 0);
+            Console.Write("Topp Listan");
+            Console.SetCursorPosition(32, 1);
+            Console.Write("------------");
+            for (int i = 2; i < 10 + 2; i++)
+            {
+                Console.SetCursorPosition(32, i);
+                Console.Write(i - 1 + ". ");
+            }
+        }
+
         public void FlyttaSkatt(Snaken snake, Spelplan spelplan)
         {
             Random random = new Random();

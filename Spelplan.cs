@@ -44,6 +44,10 @@ namespace Snake
             // Rita skatten
             skatt.RitaSkatten();
 
+            // Rita ToppListan
+            skatt.ToppLista();
+
+
             // Skriv ut poäng
             Console.SetCursorPosition(2, 16); // Sätt position för poäng (exempelvis 2, 0)
             Console.ForegroundColor = ConsoleColor.Green;
