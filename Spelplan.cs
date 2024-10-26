@@ -49,7 +49,7 @@ namespace Snake
 
 
             // Skriv ut poäng
-            Console.SetCursorPosition(2, 16); // Sätt position för poäng (exempelvis 2, 0)
+            Console.SetCursorPosition(1, VerticalWallLength + 1); // Sätt position för poäng (exempelvis 2, 0)
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Poäng: ");
             Console.ResetColor();

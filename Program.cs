@@ -53,7 +53,7 @@ namespace Snake
                             isPaused = !isPaused; // Växla pausläge
                             if (isPaused)
                             {
-                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 1);
+                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
                                 Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att fortsätta.");
                             }
                             else
