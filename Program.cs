@@ -14,7 +14,7 @@ namespace Snake
 
         public static void RestartGame()
         {
-            Console.Clear();
+            //Console.Clear();
             Spelplan spelplan = new Spelplan(30, 15); // Exempelstorlek
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
             Snaken snake = new Snaken(2, 1); // Startposition för snaken
