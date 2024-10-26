@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Snake
 {
@@ -7,20 +8,24 @@ namespace Snake
     {
         public List<(int x, int y)> Snake { get; private set; }
         public Direction CurrentDirection { get; private set; } // Offentlig variabel för nuvarande riktning
-        private int score;
         private int speed; // Hastighet
 
         public Snaken(int initialX, int initialY)
         {
             Snake = new List<(int, int)> { (initialX, initialY) }; // Starta snaken på en position
-            score = 0;
             speed = 250; // Starta med en hastighet på 250 ms
             CurrentDirection = Direction.Right; // Starta med en standardriktning
         }
 
-        public int GetScore() // Ny metod för att få poängen
+        public void RitaSnaken()
         {
-            return score;
+            Console.ForegroundColor = ConsoleColor.Green;
+            foreach (var segment in Snake)
+            {
+                Console.SetCursorPosition(segment.x, segment.y);
+                Console.Write("◉");
+            }
+            Console.ResetColor();
         }
 
         public bool MoveAutomatically(Spelplan spelplan, Skatten skatt)
@@ -52,7 +57,7 @@ namespace Snake
             // Kolla om snaken har samlat in skatten
             if (head == skatt.Skatt)
             {
-                score++;
+                skatt.Score++;
                 speed = Math.Max(200, speed - 5);
                 skatt.FlyttaSkatt(this, spelplan);
             }

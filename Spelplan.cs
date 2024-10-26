@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Snake
 {
@@ -15,9 +16,6 @@ namespace Snake
 
         public void RitaSpelplan(Snaken snake, Skatten skatt)
         {
-            // Rensa konsolen för att börja om
-            Console.Clear();
-
             // Rita väggarna och tomma fält
             for (int y = 0; y <= VerticalWallLength; y++)
             {
@@ -41,19 +39,10 @@ namespace Snake
             }
 
             // Rita snaken
-            foreach (var segment in snake.Snake)
-            {
-                Console.SetCursorPosition(segment.Item1, segment.Item2); // Ställ in cursorposition för snaken
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("◉");
-                Console.ResetColor();
-            }
+            snake.RitaSnaken();
 
             // Rita skatten
-            Console.SetCursorPosition(skatt.Skatt.Item1, skatt.Skatt.Item2); // Ställ in cursorposition för skatten
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("■");
-            Console.ResetColor();
+            skatt.RitaSkatten();
 
             // Skriv ut poäng
             Console.SetCursorPosition(2, 16); // Sätt position för poäng (exempelvis 2, 0)
@@ -61,7 +50,7 @@ namespace Snake
             Console.Write("Poäng: ");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(snake.GetScore()); // Skriv ut poängen
+            Console.Write(skatt.GetScore()); // Skriv ut poängen
             Console.ResetColor();
             Console.SetCursorPosition(0, 16);
         }

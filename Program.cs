@@ -18,6 +18,7 @@ namespace Snake
             Spelplan spelplan = new Spelplan(30, 15); // Exempelstorlek
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
             Snaken snake = new Snaken(2, 1); // Startposition för snaken
+            // Skriv ut poäng
 
             GameLoop(spelplan, snake, skatt); // Starta spelet
         }

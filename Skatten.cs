@@ -6,11 +6,25 @@ namespace Snake
     public class Skatten
     {
         public (int x, int y) Skatt { get; private set; } // För att hålla reda på skattens position
+        public int Score { get; set; }
 
         // Konstruktor för att sätta skattens position
         public Skatten(int x, int y)
         {
             Skatt = (x, y);
+            Score = 0;
+        }
+        public int GetScore() // Ny metod för att få poängen
+        {
+            return Score;
+        }
+
+        public void RitaSkatten()
+        {
+            Console.SetCursorPosition(Skatt.Item1, Skatt.Item2); // Ställ in cursorposition för skatten
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("■");
+            Console.ResetColor();
         }
 
         public void FlyttaSkatt(Snaken snake, Spelplan spelplan)
