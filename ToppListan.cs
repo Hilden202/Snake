@@ -13,6 +13,32 @@ namespace Snake
         public ToppListan()
         {
             currentScore = 0;
+
+
+        }
+
+        public bool IsScoreQualifiedForTopList()
+        {
+            var topScores = LoadScores();
+            // Kontrollera om det finns färre än 10 poäng, eller om den aktuella poängen är högre än den minsta på listan
+            return topScores.Count < 10 || currentScore > topScores.Last().score;
+        }
+
+        public void SaveScoreIfQualified(string name)
+        {
+            var topScores = LoadScores();
+
+            // Om vi har färre än 10 poäng eller om currentScore är större än den minsta poängen på listan
+            if (topScores.Count < 10 || currentScore > topScores.Last().score)
+            {
+                List<string> existingScores = topScores.Select(s => $"{s.name}: {s.score}").ToList();
+                existingScores.Add($"{name}: {currentScore}");
+                File.WriteAllLines(filePath, existingScores);
+            }
+            else
+            {
+                Console.WriteLine("Din poäng är inte tillräckligt hög för att komma med på topplistan.");
+            }
         }
 
         // Öka poängen när skatten samlas in

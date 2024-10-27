@@ -44,16 +44,29 @@ namespace Snake
 
                     if (gameOver)
                     {
-                        Console.Write("Spelet är slut! Ange ditt namn: ");
-                        string name = Console.ReadLine();
-                        // Anropa SaveScore med användarens namn
-                        if (string.IsNullOrWhiteSpace(name))
-                        {
-                            RestartGame();
-                            break;
-                        }
+                        Console.SetCursorPosition(spelplan.HorisontalWallLength / 2 - 5, spelplan.VerticalWallLength);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Game over!");
+                        Console.ResetColor();
 
-                        toppListan.SaveScore(name);
+                        // Kolla om poängen är tillräckligt hög för topplistan
+                        if (toppListan.IsScoreQualifiedForTopList())
+                        {
+                            Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 3);
+                            Console.Write("Ange ditt namn för att spara på topplistan: ");
+                            string name = Console.ReadLine();
+                            if (!string.IsNullOrWhiteSpace(name))
+                            {
+                                toppListan.SaveScoreIfQualified(name);
+                            }
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 3);
+                            Console.WriteLine("Tryck på varlfi tangent för att stt starta om..");
+                            Thread.Sleep(2000);
+                            Console.ReadKey(true);
+                        }
 
                         RestartGame();
                         break;
@@ -72,43 +85,55 @@ namespace Snake
                             isPaused = !isPaused; // Växla pausläge
                             if (isPaused)
                             {
-                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
-                                Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att fortsätta.");
+                                Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 2);
+                                Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att fortsätta..");
                             }
                             else
                             {
-                                Console.Clear();
+                                // Rensa pausmeddelandet när spelet återupptas
+                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
+                                Console.WriteLine(new string(' ', Console.WindowWidth));
+
+                                Console.Clear(); // Rensa hela skärmen
+                                spelplan.RitaSpelplan(snake, skatt); // Rita om spelplanen
                             }
                             break;
 
                         case ConsoleKey.UpArrow:
-                            direction = Direction.Up;
-                            break;
                         case ConsoleKey.DownArrow:
-                            direction = Direction.Down;
-                            break;
                         case ConsoleKey.LeftArrow:
-                            direction = Direction.Left;
-                            break;
                         case ConsoleKey.RightArrow:
-                            direction = Direction.Right;
+                            if (isPaused)
+                            {
+                                isPaused = false; // Avsluta pausläget om spelet är pausat
+
+                                // Rensa pausmeddelandet när spelet återupptas med piltangent
+                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
+                                Console.WriteLine(new string(' ', Console.WindowWidth));
+
+                                Console.Clear(); // Rensa hela skärmen
+                                spelplan.RitaSpelplan(snake, skatt); // Rita om spelplanen
+                            }
+
+                            // Ändra riktning
+                            direction = keyInfo.Key switch
+                            {
+                                ConsoleKey.UpArrow => Direction.Up,
+                                ConsoleKey.DownArrow => Direction.Down,
+                                ConsoleKey.LeftArrow => Direction.Left,
+                                ConsoleKey.RightArrow => Direction.Right,
+                                _ => direction
+                            };
+                            snake.ChangeDirection(direction);
                             break;
 
                         default:
                             continue; // Om annan tangent trycks, hoppa över iterationen
                     }
-
-                    if (isPaused && keyInfo.Key != ConsoleKey.Spacebar) // Om spelet är pausat och en riktningstangent trycks
-                    {
-                        isPaused = false; // Avsluta pausläget
-                        Console.Clear();
-                    }
-
-                    // Ändra snaken riktning direkt här
-                    snake.ChangeDirection(direction);
                 }
 
-                // Sedan kan du ha sömnperioden här nere
+
+                // Lägg till sömnperioden för att sakta ned spelet om det inte är pausat
                 if (!isPaused)
                 {
                     Thread.Sleep(snake.GetSpeed());
