@@ -1,4 +1,5 @@
 🐍 Snake - Console Game
+
 Välkommen till mitt Snake-spel! Detta är en klassisk Snake-implementation för konsolen, utvecklad i C#. Spelet är enkelt att spela men ändå utmanande – perfekt för nostalgiska spelare och de som vill prova en tidlös klassiker. Här är en översikt över spelet och instruktioner för hur du kommer igång!
 
 🎮 Funktioner
