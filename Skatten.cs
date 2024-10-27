@@ -6,17 +6,11 @@ namespace Snake
     public class Skatten
     {
         public (int x, int y) Skatt { get; private set; } // För att hålla reda på skattens position
-        public int Score { get; set; }
 
         // Konstruktor för att sätta skattens position
         public Skatten(int x, int y)
         {
             Skatt = (x, y);
-            Score = 0;
-        }
-        public int GetScore() // Ny metod för att få poängen
-        {
-            return Score;
         }
 
         public void RitaSkatten()
@@ -25,19 +19,6 @@ namespace Snake
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("■");
             Console.ResetColor();
-        }
-
-        public void ToppLista()
-        {
-            Console.SetCursorPosition(32, 0);
-            Console.Write("Topp Listan");
-            Console.SetCursorPosition(32, 1);
-            Console.Write("------------");
-            for (int i = 2; i < 10 + 2; i++)
-            {
-                Console.SetCursorPosition(32, i);
-                Console.Write(i - 1 + ". ");
-            }
         }
 
         public void FlyttaSkatt(Snaken snake, Spelplan spelplan)

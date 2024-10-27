@@ -9,12 +9,14 @@ namespace Snake
         public List<(int x, int y)> Snake { get; private set; }
         public Direction CurrentDirection { get; private set; } // Offentlig variabel för nuvarande riktning
         private int speed; // Hastighet
+        private ToppListan toppListan;
 
-        public Snaken(int initialX, int initialY)
+        public Snaken(int initialX, int initialY, ToppListan toppListan)
         {
-            Snake = new List<(int, int)> { (initialX, initialY) }; // Starta snaken på en position
-            speed = 250; // Starta med en hastighet på 250 ms
-            CurrentDirection = Direction.Right; // Starta med en standardriktning
+            Snake = new List<(int, int)> { (initialX, initialY) };
+            speed = 250;
+            CurrentDirection = Direction.Right;
+            this.toppListan = toppListan; // Spara instansen av ToppListan
         }
 
         public void RitaSnaken()
@@ -57,7 +59,7 @@ namespace Snake
             // Kolla om snaken har samlat in skatten
             if (head == skatt.Skatt)
             {
-                skatt.Score++;
+                toppListan.AddScore();
                 speed = Math.Max(200, speed - 5);
                 skatt.FlyttaSkatt(this, spelplan);
             }

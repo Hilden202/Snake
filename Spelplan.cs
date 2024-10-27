@@ -7,11 +7,13 @@ namespace Snake
     {
         public int HorisontalWallLength { get; private set; }
         public int VerticalWallLength { get; private set; }
+        private ToppListan toppListan;
 
-        public Spelplan(int horisontalSize, int verticalSize)
+        public Spelplan(int horisontalSize, int verticalSize, ToppListan toppListan)
         {
             HorisontalWallLength = horisontalSize;
             VerticalWallLength = verticalSize;
+            this.toppListan = toppListan; // Spara instansen av ToppListan
         }
 
         public void RitaSpelplan(Snaken snake, Skatten skatt)
@@ -44,8 +46,9 @@ namespace Snake
             // Rita skatten
             skatt.RitaSkatten();
 
-            // Rita ToppListan
-            skatt.ToppLista();
+
+            // Anropa RitaTopplista för att visa topp 10-listan
+            toppListan.RitaTopplista();
 
 
             // Skriv ut poäng
@@ -54,7 +57,7 @@ namespace Snake
             Console.Write("Poäng: ");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(skatt.GetScore()); // Skriv ut poängen
+            Console.Write(toppListan.GetCurrentScore()); // Skriv ut poängen
             Console.ResetColor();
             Console.SetCursorPosition(0, 16);
         }

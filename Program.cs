@@ -9,21 +9,22 @@ namespace Snake
 
         static void Main(string[] args)
         {
+
             RestartGame(); // Starta spelet för första gången
         }
+
 
         public static void RestartGame()
         {
             Console.Clear();
-            Spelplan spelplan = new Spelplan(30, 15); // Exempelstorlek
+            ToppListan toppListan = new ToppListan(); // Skapa en instans av ToppLis
+            Spelplan spelplan = new Spelplan(30, 15, toppListan); // Exempelstorlek
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
-            Snaken snake = new Snaken(2, 1); // Startposition för snaken
-            // Skriv ut poäng
-
-            GameLoop(spelplan, snake, skatt); // Starta spelet
+            Snaken snake = new Snaken(2, 1, toppListan); // Startposition för snaken
+            GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
         }
 
-        static void GameLoop(Spelplan spelplan, Snaken snake, Skatten skatt)
+        static void GameLoop(Spelplan spelplan, Snaken snake, Skatten skatt, ToppListan toppListan)
         {
             while (true)
             {
@@ -34,8 +35,11 @@ namespace Snake
 
                     if (gameOver)
                     {
-                        Console.WriteLine("Spelet är slut! Tryck på valfri tangent för att starta om.");
-                        Console.ReadKey(true);
+                        Console.Write("Spelet är slut! Ange ditt namn: ");
+                        string name = Console.ReadLine();
+                        // Anropa SaveScore med användarens namn
+                        toppListan.SaveScore(name);
+
                         RestartGame();
                         break;
                     }
@@ -92,6 +96,7 @@ namespace Snake
                 {
                     Thread.Sleep(snake.GetSpeed());
                 }
+
             }
 
         }
