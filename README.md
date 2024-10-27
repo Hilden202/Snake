@@ -28,10 +28,13 @@ När spelet är slut, jämförs din poäng med den befintliga topplistan. Om din
 🚀 Installation
 
 Klona projektet från GitHub:
+
 git clone https://github.com/Hilden202/Snake.git
+
 Navigera till projektmappen:
 
 cd snake-console-game
+
 Kompilera och kör spelet (för .NET Core-användare):
 dotnet run
 
