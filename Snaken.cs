@@ -17,6 +17,8 @@ namespace Snake
             speed = 250;
             CurrentDirection = Direction.Right;
             this.toppListan = toppListan; // Spara instansen av ToppListan
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         }
 
         public void RitaSnaken()

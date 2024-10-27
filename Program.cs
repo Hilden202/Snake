@@ -11,6 +11,7 @@ namespace Snake
         {
 
             RestartGame(); // Starta spelet för första gången
+
         }
 
 
