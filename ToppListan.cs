@@ -35,10 +35,6 @@ namespace Snake
                 existingScores.Add($"{name}: {currentScore}");
                 File.WriteAllLines(filePath, existingScores);
             }
-            else
-            {
-                Console.WriteLine("Din poäng är inte tillräckligt hög för att komma med på topplistan.");
-            }
         }
 
         // Öka poängen när skatten samlas in

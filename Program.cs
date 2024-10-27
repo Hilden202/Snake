@@ -13,7 +13,6 @@ namespace Snake
             RestartGame(); // Starta spelet för första gången
         }
 
-
         public static void RestartGame()
         {
             Console.Clear();
@@ -27,7 +26,7 @@ namespace Snake
 
             isPaused = true; // Starta spelet i pausat läge
             Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2); // Positionera cursor för meddelande
-            Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att börja spela.");
+            Console.WriteLine("Spelet är pausat. Välj en riktning för att börja spela.");
 
             GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
         }
@@ -52,7 +51,7 @@ namespace Snake
                         if (toppListan.IsScoreQualifiedForTopList())
                         {
                             Console.SetCursorPosition(0, spelplan.VerticalWallLength + 3);
-                            Console.Write("Ange ditt namn för att spara på topplistan: ");
+                            Console.Write("Grattis, du är topp 10! Ange namn om du vill stå med: ");
                             string name = Console.ReadLine();
                             if (!string.IsNullOrWhiteSpace(name))
                             {
@@ -62,7 +61,7 @@ namespace Snake
                         else
                         {
                             Console.SetCursorPosition(0, spelplan.VerticalWallLength + 3);
-                            Console.WriteLine("Tryck på varlfi tangent för att starta om..");
+                            Console.WriteLine("Tyvärr, försök igen. Tryck på varlfi tangent för att starta om..");
                             Thread.Sleep(2000);
                             Console.ReadKey(true);
                         }
@@ -85,7 +84,7 @@ namespace Snake
                             if (isPaused)
                             {
                                 Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
-                                Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att fortsätta..");
+                                Console.WriteLine("Spelet är pausat. Tryck mellanslag eller välj riktning för att fortsätta..");
                             }
                             else
                             {
