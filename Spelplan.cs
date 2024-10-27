@@ -52,14 +52,23 @@ namespace Snake
 
 
             // Skriv ut poäng
-            Console.SetCursorPosition(1, VerticalWallLength + 1); // Sätt position för poäng (exempelvis 2, 0)
+            Console.SetCursorPosition(1, VerticalWallLength + 1); // Sätt position för poäng
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Poäng: ");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(toppListan.GetCurrentScore()); // Skriv ut poängen
             Console.ResetColor();
-            Console.SetCursorPosition(0, 16);
+            //Console.SetCursorPosition(0, 16);
+
+            // Skriv ut Quit
+            Console.SetCursorPosition(HorisontalWallLength - 6, VerticalWallLength + 1); // Sätt position för Quit
+            Console.Write("[");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Q");
+            Console.ResetColor();
+            Console.Write("]uit");
+            //Console.SetCursorPosition(0, 16);
         }
     }
 }

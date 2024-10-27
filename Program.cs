@@ -128,6 +128,11 @@ namespace Snake
                             snake.ChangeDirection(direction);
                             break;
 
+                        case ConsoleKey.Q:
+                            // Avsluta spelet
+                            Environment.Exit(0); // Avsluta programmet
+                            break;
+
                         default:
                             continue; // Om annan tangent trycks, hoppa över iterationen
                     }
