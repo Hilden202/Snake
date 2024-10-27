@@ -14,7 +14,7 @@ namespace Snake
         public Snaken(int initialX, int initialY, ToppListan toppListan)
         {
             Snake = new List<(int, int)> { (initialX, initialY) };
-            speed = 250;
+            speed = 150;
             CurrentDirection = Direction.Right;
             this.toppListan = toppListan; // Spara instansen av ToppListan
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -62,7 +62,7 @@ namespace Snake
             if (head == skatt.Skatt)
             {
                 toppListan.AddScore();
-                speed = Math.Max(200, speed - 5);
+                speed = Math.Max(50, speed - 5);
                 skatt.FlyttaSkatt(this, spelplan);
             }
             else

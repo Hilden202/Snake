@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace Snake
 {
@@ -9,9 +10,8 @@ namespace Snake
 
         static void Main(string[] args)
         {
-
+            isPaused = true;
             RestartGame(); // Starta spelet för första gången
-
         }
 
 
@@ -22,6 +22,14 @@ namespace Snake
             Spelplan spelplan = new Spelplan(30, 15, toppListan); // Exempelstorlek
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
             Snaken snake = new Snaken(2, 1, toppListan); // Startposition för snaken
+            //GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
+
+            spelplan.RitaSpelplan(snake, skatt);
+
+            isPaused = true; // Starta spelet i pausat läge
+            Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2); // Positionera cursor för meddelande
+            Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att börja spela.");
+
             GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
         }
 
@@ -96,16 +104,16 @@ namespace Snake
                         Console.Clear();
                     }
 
+                    // Ändra snaken riktning direkt här
                     snake.ChangeDirection(direction);
                 }
 
+                // Sedan kan du ha sömnperioden här nere
                 if (!isPaused)
                 {
                     Thread.Sleep(snake.GetSpeed());
                 }
-
             }
-
         }
     }
 }
