@@ -21,6 +21,7 @@ namespace Snake
             Console.ResetColor();
         }
 
+
         public void FlyttaSkatt(Snaken snake, Spelplan spelplan)
         {
             Random random = new Random();

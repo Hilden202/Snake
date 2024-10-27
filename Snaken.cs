@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace Snake
 {
@@ -63,7 +62,7 @@ namespace Snake
             if (head == skatt.Skatt)
             {
                 toppListan.AddScore();
-                speed = Math.Max(50, speed - 5);
+                speed = Math.Max(50, speed - 1);
                 skatt.FlyttaSkatt(this, spelplan);
             }
             else

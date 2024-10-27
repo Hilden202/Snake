@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Xml.Linq;
 
 namespace Snake
 {
@@ -33,14 +32,14 @@ namespace Snake
             GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
         }
 
-        static void GameLoop(Spelplan spelplan, Snaken snake, Skatten skatt, ToppListan toppListan)
+        static void GameLoop(Spelplan spelplan, Snaken snake, Skatten skatten, ToppListan toppListan)
         {
             while (true)
             {
                 if (!isPaused) // Rita bara om spelet inte är pausat
                 {
-                    spelplan.RitaSpelplan(snake, skatt);
-                    bool gameOver = snake.MoveAutomatically(spelplan, skatt);
+                    spelplan.RitaSpelplan(snake, skatten);
+                    bool gameOver = snake.MoveAutomatically(spelplan, skatten);
 
                     if (gameOver)
                     {
@@ -95,7 +94,7 @@ namespace Snake
                                 Console.WriteLine(new string(' ', Console.WindowWidth));
 
                                 Console.Clear(); // Rensa hela skärmen
-                                spelplan.RitaSpelplan(snake, skatt); // Rita om spelplanen
+                                spelplan.RitaSpelplan(snake, skatten); // Rita om spelplanen
                             }
                             break;
 
@@ -113,7 +112,7 @@ namespace Snake
                                 Console.WriteLine(new string(' ', Console.WindowWidth));
 
                                 Console.Clear(); // Rensa hela skärmen
-                                spelplan.RitaSpelplan(snake, skatt); // Rita om spelplanen
+                                spelplan.RitaSpelplan(snake, skatten); // Rita om spelplanen
                             }
 
                             // Ändra riktning

@@ -59,7 +59,6 @@ namespace Snake
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(toppListan.GetCurrentScore()); // Skriv ut poängen
             Console.ResetColor();
-            //Console.SetCursorPosition(0, 16);
 
             // Skriv ut Quit
             Console.SetCursorPosition(HorisontalWallLength - 6, VerticalWallLength + 1); // Sätt position för Quit
@@ -68,7 +67,6 @@ namespace Snake
             Console.Write("Q");
             Console.ResetColor();
             Console.Write("]uit");
-            //Console.SetCursorPosition(0, 16);
         }
     }
 }
