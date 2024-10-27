@@ -38,6 +38,12 @@ namespace Snake
                         Console.Write("Spelet är slut! Ange ditt namn: ");
                         string name = Console.ReadLine();
                         // Anropa SaveScore med användarens namn
+                        if (string.IsNullOrWhiteSpace(name))
+                        {
+                            RestartGame();
+                            break;
+                        }
+
                         toppListan.SaveScore(name);
 
                         RestartGame();
