@@ -36,6 +36,7 @@ Navigera till projektmappen:
 cd snake-console-game
 
 Kompilera och kör spelet (för .NET Core-användare):
+
 dotnet run
 
 🛠️ Teknikstack
