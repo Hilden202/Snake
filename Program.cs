@@ -52,7 +52,7 @@ namespace Snake
                         // Kolla om poängen är tillräckligt hög för topplistan
                         if (toppListan.IsScoreQualifiedForTopList())
                         {
-                            Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 3);
+                            Console.SetCursorPosition(0, spelplan.VerticalWallLength + 3);
                             Console.Write("Ange ditt namn för att spara på topplistan: ");
                             string name = Console.ReadLine();
                             if (!string.IsNullOrWhiteSpace(name))
@@ -62,8 +62,8 @@ namespace Snake
                         }
                         else
                         {
-                            Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 3);
-                            Console.WriteLine("Tryck på varlfi tangent för att stt starta om..");
+                            Console.SetCursorPosition(0, spelplan.VerticalWallLength + 3);
+                            Console.WriteLine("Tryck på varlfi tangent för att starta om..");
                             Thread.Sleep(2000);
                             Console.ReadKey(true);
                         }
@@ -77,7 +77,7 @@ namespace Snake
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                    Direction direction = snake.CurrentDirection; // Standardriktning är nuvarande riktning
+                    Snaken.Direction direction = snake.CurrentDirection; // Standardriktning är nuvarande riktning
 
                     switch (keyInfo.Key)
                     {
@@ -85,7 +85,7 @@ namespace Snake
                             isPaused = !isPaused; // Växla pausläge
                             if (isPaused)
                             {
-                                Console.SetCursorPosition(spelplan.HorisontalWallLength - spelplan.HorisontalWallLength, spelplan.VerticalWallLength + 2);
+                                Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2);
                                 Console.WriteLine("Spelet är pausat. Tryck mellanslag eller piltangent för att fortsätta..");
                             }
                             else
@@ -103,6 +103,7 @@ namespace Snake
                         case ConsoleKey.DownArrow:
                         case ConsoleKey.LeftArrow:
                         case ConsoleKey.RightArrow:
+
                             if (isPaused)
                             {
                                 isPaused = false; // Avsluta pausläget om spelet är pausat
@@ -118,10 +119,10 @@ namespace Snake
                             // Ändra riktning
                             direction = keyInfo.Key switch
                             {
-                                ConsoleKey.UpArrow => Direction.Up,
-                                ConsoleKey.DownArrow => Direction.Down,
-                                ConsoleKey.LeftArrow => Direction.Left,
-                                ConsoleKey.RightArrow => Direction.Right,
+                                ConsoleKey.UpArrow => Snaken.Direction.Up,
+                                ConsoleKey.DownArrow => Snaken.Direction.Down,
+                                ConsoleKey.LeftArrow => Snaken.Direction.Left,
+                                ConsoleKey.RightArrow => Snaken.Direction.Right,
                                 _ => direction
                             };
                             snake.ChangeDirection(direction);

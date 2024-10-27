@@ -6,6 +6,7 @@ namespace Snake
 {
     public class Snaken
     {
+
         public List<(int x, int y)> Snake { get; private set; }
         public Direction CurrentDirection { get; private set; } // Offentlig variabel för nuvarande riktning
         private int speed; // Hastighet
@@ -78,6 +79,14 @@ namespace Snake
 
             Snake.Insert(0, head); // Lägg till huvudet
             return false; // Spelet fortsätter
+        }
+
+        public enum Direction
+        {
+            Up,
+            Down,
+            Left,
+            Right
         }
 
         public void ChangeDirection(Direction direction)
