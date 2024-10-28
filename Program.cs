@@ -16,7 +16,7 @@ namespace Snake
         public static void RestartGame()
         {
             Console.Clear();
-            ToppListan toppListan = new ToppListan(); // Skapa en instans av ToppLis
+            ToppListan toppListan = new ToppListan(); // Skapa en instans av ToppLista
             Spelplan spelplan = new Spelplan(30, 15, toppListan); // Exempelstorlek
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
             Snaken snake = new Snaken(2, 1, toppListan); // Startposition för snaken
