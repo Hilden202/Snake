@@ -9,12 +9,10 @@ namespace Snake
     {
         private int currentScore;
         private readonly string filePath = "highscores.txt";
-        //private Spelplan SpelPlan;
 
         public ToppListan()
         {
             currentScore = 0;
-            //SpelPlan = spelplan;
 
         }
 
