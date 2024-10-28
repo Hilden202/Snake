@@ -9,11 +9,12 @@ namespace Snake
     {
         private int currentScore;
         private readonly string filePath = "highscores.txt";
+        //private Spelplan SpelPlan;
 
         public ToppListan()
         {
             currentScore = 0;
-
+            //SpelPlan = spelplan;
 
         }
 
@@ -79,7 +80,7 @@ namespace Snake
         }
 
         // Rita topp 10-listan
-        public void RitaTopplista()
+        public void RitaTopplista(Spelplan spelplan)
         {
             Console.SetCursorPosition(32, 0);
             Console.WriteLine("Topp Listan");
@@ -89,7 +90,7 @@ namespace Snake
             var topScores = LoadScores();
             for (int i = 0; i < topScores.Count; i++)
             {
-                Console.SetCursorPosition(32, i + 2);
+                Console.SetCursorPosition(spelplan.HorisontalWallLength + 1, i + 2);
 
                 // Set color for the top name
                 if (i == 0) // Assuming i == 0 is the top player

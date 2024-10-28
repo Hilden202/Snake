@@ -48,7 +48,7 @@ namespace Snake
 
 
             // Anropa RitaTopplista för att visa topp 10-listan
-            toppListan.RitaTopplista();
+            toppListan.RitaTopplista(this);
 
 
             // Skriv ut poäng

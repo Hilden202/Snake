@@ -18,11 +18,13 @@ namespace Snake
             Console.Clear();
             ToppListan toppListan = new ToppListan(); // Skapa en instans av ToppLista
             Spelplan spelplan = new Spelplan(30, 15, toppListan); // Exempelstorlek
+            Spelplan spelplan1 = new Spelplan(30, 30, toppListan);
             Skatten skatt = new Skatten(6, 2); // Sätt skattens startposition
             Snaken snake = new Snaken(2, 1, toppListan); // Startposition för snaken
             //GameLoop(spelplan, snake, skatt, toppListan); // Starta spelet
 
             spelplan.RitaSpelplan(snake, skatt);
+
 
             isPaused = true; // Starta spelet i pausat läge
             Console.SetCursorPosition(0, spelplan.VerticalWallLength + 2); // Positionera cursor för meddelande
