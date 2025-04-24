@@ -1,46 +1,38 @@
 🐍 Snake - Console Game
+Welcome to my Snake game! This is a classic Snake implementation for the console, developed in C#. The game is simple to play yet challenging – perfect for nostalgic gamers and those looking to try a timeless classic.
 
-Välkommen till mitt Snake-spel! Detta är en klassisk Snake-implementation för konsolen, utvecklad i C#. Spelet är enkelt att spela men ändå utmanande – perfekt för nostalgiska spelare och de som vill prova en tidlös klassiker. Här är en översikt över spelet och instruktioner för hur du kommer igång!
+🎮 Features
+	•	Classic Snake gameplay – Control your snake to eat “treasures” and grow.
+	•	Increasing difficulty – The snake speeds up as it eats more.
+	•	Top 10 high score list – Save and compare your scores to previous attempts.
+	•	Pause function – Pause and resume the game at any time.
+	•	Bordered playfield – Classic walls around the play area for added challenge.
 
-🎮 Funktioner
+🕹️ Game Instructions
+	•	Start the game: Run the program from the console.
+	•	Controls:
+	•	Up: Arrow key ↑
+	•	Down: Arrow key ↓
+	•	Left: Arrow key ←
+	•	Right: Arrow key →
+	•	Pause/Resume: Press Space
+	•	Quit: Press Q
 
-Klassisk Snake-spelmekanik – Styra din orm för att äta "skatter" och växa.
-Ökande svårighetsgrad – Ormen ökar i hastighet ju mer den äter.
-Topp 10-highscore-lista – Spara dina högsta poäng och jämför dem med dina tidigare försök.
-Pausfunktion – Pausa spelet när du behöver en paus och fortsätt där du slutade.
-Spelplan med gränser – Klassiska väggar runt spelplanen som gör spelet mer utmanande.
-
-🕹️ Spelinstruktioner
-
-Starta spelet: Kör programmet från konsolen.
-Riktningskontroller:
-Upp: Piltangent "Upp"
-Ner: Piltangent "Ner"
-Vänster: Piltangent "Vänster"
-Höger: Piltangent "Höger"
-Pausa/Fortsätt: Tryck på mellanslag för att pausa och fortsätta spelet.
-Avsluta spelet: Tryck på "Q" för att avsluta spelet.
-
-🏆 Highscore-lista
-
-När spelet är slut, jämförs din poäng med den befintliga topplistan. Om din poäng är tillräckligt hög får du möjligheten att ange ditt namn och spara poängen i highscores.txt.
+🏆 High Score List
+At the end of each game, your score will be compared to the existing top scores.
+If your score is high enough, you can enter your name and it will be saved in highscores.txt.
 
 🚀 Installation
-
-Klona projektet från GitHub:
-
+Clone the project from GitHub:
 git clone https://github.com/Hilden202/Snake.git
 
-Navigera till projektmappen:
-
+Navigate to the project folder:
 cd snake-console-game
 
-Kompilera och kör spelet (för .NET Core-användare):
-
+Compile and run the game (for .NET Core users):
 dotnet run
 
-🛠️ Teknikstack
-
-Programspråk: C#
-Plattform: Konsolapplikation
-Highscore-lagring: highscores.txt lagrar highscore-listan för framtida försök.
+🛠️ Tech Stack
+	•	Language: C#
+	•	Platform: Console application
+	•	High Score Storage: highscores.txt
